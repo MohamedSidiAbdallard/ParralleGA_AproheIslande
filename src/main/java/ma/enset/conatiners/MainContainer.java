@@ -6,17 +6,16 @@ import jade.core.Runtime;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
+import ma.enset.agents.MasterAgent;
 
 public class MainContainer {
-    public static void main(String[] args) throws StaleProxyException{
+    public static void main(String[] args) throws StaleProxyException {
         Runtime runtime = Runtime.instance();
-        Profile profile = new ProfileImpl();
-        profile.setParameter(Profile.MAIN_HOST,"true");
-        AgentContainer agentContainer = runtime.createAgentContainer(profile);
-
-        AgentController masterAgent = agentContainer.createNewAgent("MasterAgent", "ma.enset.agents.MasterAgent",
-                    new Object[]{});
+        ProfileImpl profile = new ProfileImpl();
+        profile.setParameter(Profile.GUI,"true");
+        AgentContainer agentContainer = runtime.createMainContainer(profile);
+        AgentController masterAgent = agentContainer.createNewAgent("MasterAgent",
+                MasterAgent.class.getName(), new Object[]{});
         masterAgent.start();
-
     }
 }
