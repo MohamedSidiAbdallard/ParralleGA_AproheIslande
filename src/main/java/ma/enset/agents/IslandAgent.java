@@ -19,32 +19,37 @@ public class IslandAgent extends Agent {
     @Override
     protected void setup() {
         ACLMessage aclMessage1 = new ACLMessage(ACLMessage.REQUEST);
-        aclMessage1.setConversationId("demande");
+
+        aclMessage1.setContent("Hello");
         aclMessage1.addReceiver(new AID(MasterAgent.class.getName()));
+        aclMessage1.addReceiver(new AID("MasterAgent",AID.ISLOCALNAME));
         send(aclMessage1);
-        addBehaviour(new OneShotBehaviour() {
-            @Override
-            public void action() {
-                ACLMessage message = receive();
+        System.out.println(aclMessage1.getContent());
 
-                if (message != null) {
-                    try {
-                        // Deserialize the content into List<Individual>
-                        String json = message.getContent();
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        List<Individual> individuals = objectMapper.readValue(json, new TypeReference<List<Individual>>() {});
 
-                        // Process the received individuals
-                        // ...
-
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    block();
-                }
-            }
-        });
+//        addBehaviour(new OneShotBehaviour() {
+//            @Override
+//            public void action() {
+//                ACLMessage message = receive();
+//
+//                if (message != null) {
+//                    try {
+//                        // Deserialize the content into List<Individual>
+//                        String json = message.getContent();
+//                        ObjectMapper objectMapper = new ObjectMapper();
+//                        List<Individual> individuals = objectMapper.readValue(json, new TypeReference<List<Individual>>() {});
+//
+//                        // Process the received individuals
+//                        // ...
+//
+//                    } catch (JsonProcessingException e) {
+//                        e.printStackTrace();
+//                    }
+//                } else {
+//                    block();
+//                }
+//            }
+//        });
 
 
 

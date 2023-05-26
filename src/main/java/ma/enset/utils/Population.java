@@ -11,8 +11,8 @@ public class Population {
         for (int i=0;i<GAUtils.POPULATION_SIZE;i++){
             Individual individual = new Individual();
             individual.setGenes(generateRandomGenes());
-            System.out.println("individual : "+i +" :  "+Arrays.toString(individual.getGenes()));
-            System.out.println(Arrays.toString(individual.getGenes()));
+//            System.out.println("individual : "+i +" :  "+Arrays.toString(individual.getGenes()));
+//            System.out.println(Arrays.toString(individual.getGenes()));
             individuals.add(individual);
         }
     }

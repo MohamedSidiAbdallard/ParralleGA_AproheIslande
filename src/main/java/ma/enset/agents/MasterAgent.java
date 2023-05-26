@@ -3,6 +3,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import ma.enset.utils.Population;
@@ -24,12 +25,16 @@ public class MasterAgent extends Agent {
 
 
 
-            addBehaviour(new OneShotBehaviour() {
+            addBehaviour(new CyclicBehaviour() {
+
                 @Override
                 public void action() {
+                    ACLMessage  receiveMsg1 = receive();
 
-                    ACLMessage receiveMsg1 = receive();
+
                     if (receiveMsg1 != null) {
+                        System.out.println(receiveMsg1.getContent());
+                        System.out.println(receiveMsg1.getSender());
 //                     Convert individuals to JSON
                         ObjectMapper objectMapper = new ObjectMapper();
                         String json = null;
@@ -41,11 +46,11 @@ public class MasterAgent extends Agent {
                         }
                         // Create ACLMessage
                         ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
-                        message.addReceiver(new AID(IslandAgent.class.getName()));
+                        message.addReceiver(receiveMsg1.getSender());
                         message.setContent(json);
                         message.setLanguage("JSON");
                         send(message);
-                        System.out.println(message.getContent());
+//                        System.out.println(message.getContent());
                     } else {
                         block();
                     }
