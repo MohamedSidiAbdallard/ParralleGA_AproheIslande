@@ -17,5 +17,7 @@ public class MainContainer {
         AgentController masterAgent = agentContainer.createNewAgent("MasterAgent",
                 MasterAgent.class.getName(), new Object[]{});
         masterAgent.start();
+
+
     }
 }
