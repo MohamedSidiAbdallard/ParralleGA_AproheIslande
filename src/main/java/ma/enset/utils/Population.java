@@ -4,6 +4,11 @@ import java.util.*;
 
 public class Population {
     List<Individual> individuals=new ArrayList<>();
+
+    public void setIndividuals(List<Individual> individuals) {
+        this.individuals = individuals;
+    }
+
     Individual firstFitness;
     Individual secondFitness;
     Random rnd=new Random();
