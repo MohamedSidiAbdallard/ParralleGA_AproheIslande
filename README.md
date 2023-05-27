@@ -1,5 +1,5 @@
 # Parallel and distributed genetic algorithms
-## 
+## "ISLAND MODEL" APPROACH
 The implementation of genetic algorithms using the "island model" 
 approach involves creating multiple subpopulations that evolve independently 
 and occasionally exchange individuals to explore different solutions efficiently.
