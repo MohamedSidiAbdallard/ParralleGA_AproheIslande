@@ -4,7 +4,12 @@ public class Individual implements Comparable{
         private char genes[]=new char[GAUtils.MAX_FITNESS];
         private int fitness;
 
-        public Individual() {
+    public Individual(char[] genes, int fitness) {
+        this.genes = genes;
+        this.fitness = fitness;
+    }
+
+    public Individual() {
             Random rnd=new Random();
             for (int i=0;i<genes.length;i++){
                 genes[i]= GAUtils.CHARATERS.charAt(rnd.nextInt(GAUtils.CHARATERS.length()));

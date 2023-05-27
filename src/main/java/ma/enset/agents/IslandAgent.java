@@ -3,13 +3,18 @@ package ma.enset.agents;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.SequentialBehaviour;
 import jade.lang.acl.ACLMessage;
+import jade.wrapper.PlatformController;
 import ma.enset.utils.GAUtils;
 import ma.enset.utils.Individual;
+import ma.enset.utils.MessageIndivuidial;
 import ma.enset.utils.Population;
 
 import java.util.Arrays;
@@ -27,9 +32,9 @@ public class IslandAgent extends Agent {
         aclMessage1.addReceiver(new AID("MasterAgent",AID.ISLOCALNAME));
         send(aclMessage1);
         System.out.println(aclMessage1.getContent());
+        SequentialBehaviour sq = new SequentialBehaviour();
 
-
-        addBehaviour(new CyclicBehaviour() {
+        sq.addSubBehaviour(new CyclicBehaviour() {
             @Override
             public void action() {
                 ACLMessage message = receive();
@@ -38,19 +43,18 @@ public class IslandAgent extends Agent {
                     try {
                         // Deserialize the content into List<Individual>
                         String json = message.getContent();
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        List<Individual> individuals = objectMapper.readValue(json, new TypeReference<List<Individual>>() {});
-                        individuals.forEach(individual -> {
-                            System.out.println(individual.getGenes());
-                            System.out.println(individual.getFitness());
-                        });
-                        population.setIndividuals(individuals);
-//                        System.out.println("Size "+population.getIndividuals().size());
-                        // Process the received individuals
-                        // ...
+                        Gson gson = new Gson();
+                        MessageIndivuidial[] messageIndivuidials = gson.fromJson(json, MessageIndivuidial[].class);
 
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
+                        for (MessageIndivuidial messageIndivuidial : messageIndivuidials) {
+                            population.getIndividuals().add(new Individual(messageIndivuidial.getGenes().toCharArray(),messageIndivuidial.getFitness()));
+                        }
+                        System.out.println(population.getIndividuals().size());
+
+
+
+                    } catch (Exception e) {
+
                     }
                 } else {
                     block();
@@ -58,6 +62,14 @@ public class IslandAgent extends Agent {
             }
         });
 
+        sq.addSubBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+
+            }
+        });
+
+        addBehaviour(sq);
 
 
 
@@ -66,8 +78,12 @@ public class IslandAgent extends Agent {
 
 
 
-    /**
 
+
+
+
+
+        /**
         population.calculateIndFintess();
         population.sortPopulation();
         int it=0;
@@ -81,7 +97,8 @@ public class IslandAgent extends Agent {
             System.out.println("It :"+it+"Chromosome :"+Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
             it++;
         }
-     **/
+         **/
+
     }
 
 }
