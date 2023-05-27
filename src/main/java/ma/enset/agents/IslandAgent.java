@@ -112,6 +112,8 @@ public class IslandAgent extends Agent {
             @Override
             public boolean done() {
                 if (it==GAUtils.MAX_IT || population.getFitnessIndivd().getFitness()==GAUtils.MAX_FITNESS){
+
+
                     return true;
                 }
                 return false;
@@ -132,19 +134,6 @@ public class IslandAgent extends Agent {
 
 
 
-//        population.calculateIndFintess();
-//        population.sortPopulation();
-//        int it=0;
-//        System.out.println("Chromosome :"+ Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
-//        while (it< GAUtils.MAX_IT && population.getFitnessIndivd().getFitness()<GAUtils.MAX_FITNESS){
-//            population.selection();
-//            population.crossover();
-//            population.mutation();
-//            population.calculateIndFintess();
-//            population.sortPopulation();
-//            System.out.println("It :"+it+"Chromosome :"+Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
-//            it++;
-//        }
 
 
     }

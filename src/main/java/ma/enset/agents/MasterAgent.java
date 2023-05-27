@@ -35,7 +35,7 @@ public class MasterAgent extends Agent {
                     if (receiveMsg1 != null) {
                         System.out.println(receiveMsg1.getContent());
                         System.out.println(receiveMsg1.getSender());
-//                     Convert individuals to JSON
+
                         ObjectMapper objectMapper = new ObjectMapper();
                         String json = null;
                         try {
@@ -44,14 +44,12 @@ public class MasterAgent extends Agent {
                         } catch (JsonProcessingException e) {
                             throw new RuntimeException(e);
                         }
-                        // Create ACLMessage
                         ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
                         message.setConversationId("chroms");
                         message.addReceiver(receiveMsg1.getSender());
                         message.setContent(json);
                         message.setLanguage("JSON");
                         send(message);
-//                        System.out.println(message.getContent());
                     } else {
                         block();
                     }
@@ -61,17 +59,6 @@ public class MasterAgent extends Agent {
 
 
         /**=================================================**/
-
-
-
-               /**===============================**/
-
-
-
-
-
-        // recoi une demende de l'agent
-        // give me my part to work on it
 
 
 
