@@ -46,6 +46,7 @@ public class MasterAgent extends Agent {
                         }
                         // Create ACLMessage
                         ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+                        message.setConversationId("chroms");
                         message.addReceiver(receiveMsg1.getSender());
                         message.setContent(json);
                         message.setLanguage("JSON");

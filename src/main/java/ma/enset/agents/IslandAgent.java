@@ -17,6 +17,7 @@ import ma.enset.utils.Individual;
 import ma.enset.utils.MessageIndivuidial;
 import ma.enset.utils.Population;
 
+import javax.security.auth.callback.TextInputCallback;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,12 +35,21 @@ public class IslandAgent extends Agent {
         System.out.println(aclMessage1.getContent());
         SequentialBehaviour sq = new SequentialBehaviour();
 
-        sq.addSubBehaviour(new CyclicBehaviour() {
+        sq.addSubBehaviour(new Behaviour() {
+            boolean exit= false;
             @Override
             public void action() {
+                if (exit){
+
+
+
+                    System.out.println("exit");
+                    return;
+                }
+                System.out.println("atending ...");
                 ACLMessage message = receive();
 
-                if (message != null) {
+                if (message != null  ) {
                     try {
                         // Deserialize the content into List<Individual>
                         String json = message.getContent();
@@ -50,6 +60,7 @@ public class IslandAgent extends Agent {
                             population.getIndividuals().add(new Individual(messageIndivuidial.getGenes().toCharArray(),messageIndivuidial.getFitness()));
                         }
                         System.out.println(population.getIndividuals().size());
+                        exit =true;
 
 
 
@@ -60,15 +71,52 @@ public class IslandAgent extends Agent {
                     block();
                 }
             }
-        });
 
-        sq.addSubBehaviour(new OneShotBehaviour() {
             @Override
-            public void action() {
+            public boolean done() {
+                if (exit){
+                    System.out.println(".......................");
+                    return true;
+                }
+                return false;
 
             }
+
+
         });
 
+
+        sq.addSubBehaviour(new Behaviour() {
+            int it=0;
+            @Override
+            public void action() {
+                population.calculateIndFintess();
+                population.sortPopulation();
+
+
+
+                System.out.println("Chromosome :"+ Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
+
+                    population.selection();
+                    population.crossover();
+                    population.mutation();
+                    population.calculateIndFintess();
+                    population.sortPopulation();
+                    System.out.println("It :"+it+"Chromosome :"+Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
+                    it++;
+
+
+
+            }
+
+            @Override
+            public boolean done() {
+                if (it==GAUtils.MAX_IT || population.getFitnessIndivd().getFitness()==GAUtils.MAX_FITNESS){
+                    return true;
+                }
+                return false;
+            }
+        });
         addBehaviour(sq);
 
 
@@ -83,21 +131,21 @@ public class IslandAgent extends Agent {
 
 
 
-        /**
-        population.calculateIndFintess();
-        population.sortPopulation();
-        int it=0;
-        System.out.println("Chromosome :"+ Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
-        while (it< GAUtils.MAX_IT && population.getFitnessIndivd().getFitness()<GAUtils.MAX_FITNESS){
-            population.selection();
-            population.crossover();
-            population.mutation();
-            population.calculateIndFintess();
-            population.sortPopulation();
-            System.out.println("It :"+it+"Chromosome :"+Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
-            it++;
-        }
-         **/
+
+//        population.calculateIndFintess();
+//        population.sortPopulation();
+//        int it=0;
+//        System.out.println("Chromosome :"+ Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
+//        while (it< GAUtils.MAX_IT && population.getFitnessIndivd().getFitness()<GAUtils.MAX_FITNESS){
+//            population.selection();
+//            population.crossover();
+//            population.mutation();
+//            population.calculateIndFintess();
+//            population.sortPopulation();
+//            System.out.println("It :"+it+"Chromosome :"+Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
+//            it++;
+//        }
+
 
     }
 
