@@ -45,6 +45,7 @@ public class IslandAgent extends Agent {
                             System.out.println(individual.getFitness());
                         });
                         population.setIndividuals(individuals);
+//                        System.out.println("Size "+population.getIndividuals().size());
                         // Process the received individuals
                         // ...
 
@@ -56,6 +57,7 @@ public class IslandAgent extends Agent {
                 }
             }
         });
+
 
 
 
