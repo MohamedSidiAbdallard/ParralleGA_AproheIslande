@@ -14,4 +14,3 @@ and occasionally exchange individuals to explore different solutions efficiently
 
 
 ![Project Logo](screens/3.png)
-<img src="https://t.bkit.co/w_6471d6b229cd8.gif" />
