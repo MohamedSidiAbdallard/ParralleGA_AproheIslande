@@ -25,13 +25,12 @@ public class MasterAgent extends Agent {
                 @Override
                 public void action() {
                     ACLMessage  receiveMsg1 = receive();
-
-
                     if (receiveMsg1 != null) {
                         switch (receiveMsg1.getConversationId()) {
                             case "demende":
+                                System.out.print(receiveMsg1.getSender().getName()+" : ");
                                 System.out.println(receiveMsg1.getContent());
-                                System.out.println(receiveMsg1.getSender());
+
 
                                 ObjectMapper objectMapper = new ObjectMapper();
                                 String json = null;
@@ -52,6 +51,10 @@ public class MasterAgent extends Agent {
                                 message.setContent(json);
                                 message.setLanguage("JSON");
                                 send(message);
+                                break;
+                            case  "done" :
+                                System.out.println(receiveMsg1.getSender().getName());
+                                System.out.println(receiveMsg1.getContent());
                                 break;
                             default:
                                 System.out.println("default :"); break;

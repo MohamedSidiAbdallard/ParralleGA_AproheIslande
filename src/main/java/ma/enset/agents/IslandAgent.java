@@ -1,27 +1,30 @@
 package ma.enset.agents;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
-import jade.core.behaviours.CyclicBehaviour;
-import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.SequentialBehaviour;
+import jade.gui.GuiAgent;
+import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
-import jade.wrapper.PlatformController;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import ma.enset.utils.GAUtils;
 import ma.enset.utils.Individual;
 import ma.enset.utils.MessageIndivuidial;
 import ma.enset.utils.Population;
-
-import javax.security.auth.callback.TextInputCallback;
 import java.util.Arrays;
-import java.util.List;
 
 public class IslandAgent extends Agent {
+    private Stage stage;
+    private Label fitnessLabel;
+    private Label chromosomeLabel;
     Population population = new Population();
     @Override
     protected void setup() {
@@ -29,12 +32,11 @@ public class IslandAgent extends Agent {
 
         aclMessage1.setContent("give me my part");
         aclMessage1.setConversationId("demende");
-        aclMessage1.addReceiver(new AID(MasterAgent.class.getName()));
+//        aclMessage1.addReceiver(new AID(MasterAgent.class.getName()));
         aclMessage1.addReceiver(new AID("MasterAgent",AID.ISLOCALNAME));
         send(aclMessage1);
 //        System.out.println(aclMessage1.getContent());
         SequentialBehaviour sq = new SequentialBehaviour();
-
         sq.addSubBehaviour(new Behaviour() {
             boolean exit= false;
             @Override
@@ -115,28 +117,26 @@ public class IslandAgent extends Agent {
                 if (it==GAUtils.MAX_IT || population.getFitnessIndivd().getFitness()==GAUtils.MAX_FITNESS){
                     System.out.println(myAgent.getName()+"---->"+Arrays.toString(population.getFitnessIndivd().getGenes()));
                     System.out.println(population.getFitnessIndivd().getFitness());
+                    sendingBest(myAgent.getAID(),String.valueOf(population.getFitnessIndivd().getGenes()));
                     return true;
                 }
                 return false;
             }
         });
         addBehaviour(sq);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
+//    @Override
+//    protected void onGuiEvent(GuiEvent guiEvent) {
+//
+//    }
+    private void sendingBest(AID reciverAid,String msg){
+            ACLMessage responseGAMsg = new ACLMessage(ACLMessage.INFORM);
+            responseGAMsg.setConversationId("done");
+            responseGAMsg.setContent(msg);
+            responseGAMsg.addReceiver(new AID("MasterAgent",AID.ISLOCALNAME));
+            send(responseGAMsg);
+    }
+
 
 }
