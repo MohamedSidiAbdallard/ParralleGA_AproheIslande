@@ -10,20 +10,9 @@ and occasionally exchange individuals to explore different solutions efficiently
 
 #Image :
 ![Project Logo](screens/1.png)
-```markdown  
 
-
-
-```
 
 ![Project Logo](screens/2.png)
-```markdown  
 
-
-
-```
 
 ![Project Logo](screens/3.png)
-```markdown  
-
-```
