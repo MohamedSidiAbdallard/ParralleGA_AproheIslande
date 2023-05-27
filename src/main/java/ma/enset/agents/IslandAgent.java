@@ -28,11 +28,11 @@ public class IslandAgent extends Agent {
         ACLMessage aclMessage1 = new ACLMessage(ACLMessage.REQUEST);
 
         aclMessage1.setContent("give me my part");
-        aclMessage1.setConversationId("demande");
+        aclMessage1.setConversationId("demende");
         aclMessage1.addReceiver(new AID(MasterAgent.class.getName()));
         aclMessage1.addReceiver(new AID("MasterAgent",AID.ISLOCALNAME));
         send(aclMessage1);
-        System.out.println(aclMessage1.getContent());
+//        System.out.println(aclMessage1.getContent());
         SequentialBehaviour sq = new SequentialBehaviour();
 
         sq.addSubBehaviour(new Behaviour() {
@@ -59,7 +59,8 @@ public class IslandAgent extends Agent {
                         for (MessageIndivuidial messageIndivuidial : messageIndivuidials) {
                             population.getIndividuals().add(new Individual(messageIndivuidial.getGenes().toCharArray(),messageIndivuidial.getFitness()));
                         }
-                        System.out.println(population.getIndividuals().size());
+//                        System.out.println("-------------------------");
+//                        System.out.println("size :   "+population.getIndividuals().size());
                         exit =true;
 
 
@@ -75,7 +76,7 @@ public class IslandAgent extends Agent {
             @Override
             public boolean done() {
                 if (exit){
-                    System.out.println(".......................");
+                    System.out.println("exit.......................");
                     return true;
                 }
                 return false;
@@ -90,19 +91,19 @@ public class IslandAgent extends Agent {
             int it=0;
             @Override
             public void action() {
-                population.calculateIndFintess();
+                population.calculateIndFintess(population.getIndividuals().size());
                 population.sortPopulation();
 
 
 
-                System.out.println("Chromosome :"+ Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
+//                System.out.println("Chromosome :"+ Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
 
                     population.selection();
                     population.crossover();
                     population.mutation();
-                    population.calculateIndFintess();
+                    population.calculateIndFintess(population.getIndividuals().size());
                     population.sortPopulation();
-                    System.out.println("It :"+it+"Chromosome :"+Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
+//                    System.out.println("It :"+it+"Chromosome :"+Arrays.toString(population.getFitnessIndivd().getGenes())+" fitness :"+population.getFitnessIndivd().getFitness());
                     it++;
 
 
@@ -112,8 +113,8 @@ public class IslandAgent extends Agent {
             @Override
             public boolean done() {
                 if (it==GAUtils.MAX_IT || population.getFitnessIndivd().getFitness()==GAUtils.MAX_FITNESS){
-
-
+                    System.out.println(myAgent.getName()+"---->"+Arrays.toString(population.getFitnessIndivd().getGenes()));
+                    System.out.println(population.getFitnessIndivd().getFitness());
                     return true;
                 }
                 return false;

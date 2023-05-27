@@ -33,9 +33,15 @@ public class Population {
 
         return randomGenes;
     }
+
     /** ========================================**/
-    public void calculateIndFintess(){
-        for (int i=0;i<GAUtils.POPULATION_SIZE;i++){
+//    public void calculateIndFintess(){
+//        for (int i=0;i<GAUtils.POPULATION_SIZE;i++){
+//            individuals.get(i).calculateFitness();
+//        }
+//    }
+    public void calculateIndFintess(int taille){
+        for (int i=0;i<taille;i++){
             individuals.get(i).calculateFitness();
         }
     }
@@ -58,8 +64,8 @@ public class Population {
             individual1.getGenes()[i]=secondFitness.getGenes()[i];
             individual2.getGenes()[i]=firstFitness.getGenes()[i];
         }
-        System.out.println(Arrays.toString(individual1.getGenes()));
-        System.out.println(Arrays.toString(individual2.getGenes()));
+//        System.out.println(Arrays.toString(individual1.getGenes()));
+//        System.out.println(Arrays.toString(individual2.getGenes()));
 
         individuals.set(individuals.size()-2,individual1);
         individuals.set(individuals.size()-1,individual2);
