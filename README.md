@@ -12,5 +12,4 @@ and occasionally exchange individuals to explore different solutions efficiently
 
 ![Project Logo](screens/2.png)
 
-
 ![Project Logo](screens/3.png)
